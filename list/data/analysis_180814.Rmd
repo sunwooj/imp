@@ -31,7 +31,7 @@ summary(dat)
 Did the results replicate?
 Plotting participants' follow-up responses (answers to Q1) on the y-axis and intonation on the x-axis.
 
-```{r, echo=FALSE}
+```{r}
 # Summarize 
 sum <- dat %>% 
   group_by(intonation, followupchoice) %>% 
@@ -98,7 +98,7 @@ p
 
 It seems that the plots are not visually amenable to direct comparisons, so let's now plot etype on the x-axis and intonation as separate facets.
 
-```{r, echo=FALSE}
+```{r}
 # Plot
 p <- ggplot (sum1, aes(etype, y=perc*100, fill=followupchoice)) +
   geom_bar(colour="black", stat="identity", position="dodge") +
@@ -154,8 +154,7 @@ The patterns are not consistent across items (e.g. call vs. window), which is a 
 
 ## Statistical analyses
 
-Some basic statistical analyses.
-```{r, echo=FALSE}
+```{r}
 library(lme4)
 library(lmerTest)
 
