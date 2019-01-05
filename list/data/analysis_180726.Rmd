@@ -1,0 +1,191 @@
+---
+title: "Experiment 1 Analysis"
+output: pdf_document
+---
+
+Calling in and reformatting the data.
+
+```{r, echo=FALSE}
+# Load packages
+library(dplyr)
+library(ggplot2)
+
+dat <- read.csv('implist_180726_live.results-parsed.csv') %>%
+  filter(!workerid %in% c("A1TEVZP5DA1XYZ", "A3C31Q12GIH1JE", "A2HT5WWG71M3XY", "A2NHPETX25VH3Q", "A1A14VJAQ7X888"))
+filler <- subset(dat, sentence == 'filler')
+dat <- subset(dat, sentence != 'filler')
+
+
+summary(dat)
+
+## Relabel some of the data
+# Response
+dat$followupchoice <- as.character(dat$followupchoice)
+dat$followupchoice[dat$followupchoice == "response=1"] <- "EN"
+dat$followupchoice[dat$followupchoice == "response=2"] <- "NE"
+dat$followupchoice <- as.factor(dat$followupchoice)
+dat$followupchoice <- factor(dat$followupchoice, levels= c("EN", "NE"))
+
+#plot(dat$intonation, dat$followupchoice)
+summary(dat$content)
+
+dat_ed <- subset(dat, content == 'menu' | content == 'call' | content == 'right' | content == 'cookie' | content == 'apple')
+dat_ei <- subset(dat, content == 'window' | content == 'calm' | content == 'coffee' | content == 'dog' | content == 'email' | content == 'home' | content == 'left')
+
+```
+
+
+Plotting participants' follow-up responses (answers to Q1) on the y-axis and intonation on the x-axis.
+
+```{r, echo=FALSE}
+# Summarize data
+sum <- dat %>% 
+  group_by(intonation, followupchoice) %>% 
+  summarise(count=n()) %>% 
+  mutate(perc=count/sum(count), n=sum(count))
+
+sum$se = sqrt(sum$perc*(1-sum$perc)/sum$n)
+sum$uci = sum$perc + 1.96*sum$se
+sum$lci = sum$perc - 1.96*sum$se
+
+sum1 <- dat_ed %>% 
+  group_by(intonation, followupchoice) %>% 
+  summarise(count=n()) %>% 
+  mutate(perc=count/sum(count), n=sum(count))
+
+sum1$se = sqrt(sum1$perc*(1-sum1$perc)/sum1$n)
+sum1$uci = sum1$perc + 1.96*sum1$se
+sum1$lci = sum1$perc - 1.96*sum1$se
+
+sum2 <- dat_ei %>% 
+  group_by(intonation, followupchoice) %>% 
+  summarise(count=n()) %>% 
+  mutate(perc=count/sum(count), n=sum(count))
+
+sum2$se = sqrt(sum2$perc*(1-sum1$perc)/sum1$n)
+sum2$uci = sum2$perc + 1.96*sum1$se
+sum2$lci = sum2$perc - 1.96*sum1$se
+
+# Add standard errors
+sum1$se = sqrt(sum1$perc*(1-sum1$perc)/sum1$n)
+sum1$uci = sum1$perc + 1.96*sum1$se
+sum1$lci = sum1$perc - 1.96*sum1$se
+
+# Plot
+p <- ggplot (sum, aes(intonation, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=20), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00"))
+p 
+
+p <- ggplot (sum1, aes(intonation, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=20), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00"))
+p 
+
+# Plot
+p <- ggplot (sum2, aes(intonation, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=20), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00"))
+p 
+```
+
+Yaay! Hypothesis confirmed!!
+Though it's a bit surprising how NE (non-endorsement) responses are generally dispreferred across the board.
+
+
+Now plotting according to individual item.
+
+```{r, echo=FALSE, eval=FALSE}
+sum2 <- dat %>% 
+  group_by(intonation, content, followupchoice) %>% 
+  summarise(count=n()) %>% 
+  mutate(perc=count/sum(count), n=sum(count))
+
+# Add standard errors
+sum2$se = sqrt(sum2$perc*(1-sum2$perc)/sum2$n)
+sum2$uci = sum2$perc + 1.96*sum2$se
+sum2$lci = sum2$perc - 1.96*sum2$se
+
+# Plot
+p <- ggplot (sum2, aes(intonation, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  facet_grid(. ~ content) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=10), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00")) +
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5))
+p 
+
+# Speaker
+
+sum4 <- dat %>% 
+  group_by(intonation, content, speaker, followupchoice) %>% 
+  summarise(count=n()) %>% 
+  mutate(perc=count/sum(count), n=sum(count))
+
+# Add standard errors
+sum4$se = sqrt(sum4$perc*(1-sum4$perc)/sum4$n)
+sum4$uci = sum4$perc + 1.96*sum4$se
+sum4$lci = sum4$perc - 1.96*sum4$se
+
+# Plot
+p <- ggplot (sum4, aes(intonation, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  facet_grid(content ~ speaker) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=10), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00")) +
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5))
+p 
+```
+
+
+Some basic statistical analyses.
+```{r, echo=FALSE}
+library(lme4)
+library(lmerTest)
+
+m1 <- glmer(followupchoice ~ intonation + (1|speaker) + (1|workerid), data = dat, family = "binomial")
+summary(m1)
+```

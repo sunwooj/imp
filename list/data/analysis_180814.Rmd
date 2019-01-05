@@ -1,0 +1,166 @@
+---
+title: "Experiment 2 Analysis"
+output: pdf_document
+---
+
+Calling in and reformatting the data.
+
+```{r, echo=FALSE}
+# Load packages
+library(dplyr)
+library(ggplot2)
+
+dat <- read.csv('implist_180814_live.results-parsed.csv') 
+filler <- subset(dat, sentence == 'filler')
+dat <- subset(dat, sentence != 'filler')
+
+## Relabel some of the data
+# Response
+dat$followupchoice <- as.character(dat$followupchoice)
+dat$followupchoice[dat$followupchoice == "response=1"] <- "EN"
+dat$followupchoice[dat$followupchoice == "response=2"] <- "NE"
+dat$followupchoice <- as.factor(dat$followupchoice)
+dat$followupchoice <- factor(dat$followupchoice, levels= c("EN", "NE"))
+
+## Examination
+summary(dat)
+```
+
+## Replication
+
+Did the results replicate?
+Plotting participants' follow-up responses (answers to Q1) on the y-axis and intonation on the x-axis.
+
+```{r, echo=FALSE}
+# Summarize 
+sum <- dat %>% 
+  group_by(intonation, followupchoice) %>% 
+  summarise(count=n()) %>% 
+  mutate(perc=count/sum(count), n=sum(count))
+
+# Add standard errors
+sum$se = sqrt(sum$perc*(1-sum$perc)/sum$n)
+sum$uci = sum$perc + 1.96*sum$se
+sum$lci = sum$perc - 1.96*sum$se
+
+# Plot
+p <- ggplot (sum, aes(intonation, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=20), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00"))
+p 
+```
+
+Yes, it did! :)
+Again, NE (non-endorsement) responses are generally dispreferred across the board, and there is a significant effect of intonation: list tune elicits significantly more NE responses.
+
+## EI vs. ED split 
+
+How about the EI vs. ED split? Was the hypothesis confirmed? Plotting participants' follow-up responses (answers to Q1) on the y-axis, intonation on the x-axis, and etype as separate panels.
+
+```{r, echo=FALSE}
+# Summarize
+sum1 <- dat %>% 
+  group_by(intonation, etype, followupchoice) %>% 
+  summarise(count=n()) %>% 
+  mutate(perc=count/sum(count), n=sum(count))
+
+# Add standard errors
+sum1$se = sqrt(sum1$perc*(1-sum1$perc)/sum1$n)
+sum1$uci = sum1$perc + 1.96*sum1$se
+sum1$lci = sum1$perc - 1.96*sum1$se
+
+# Plot
+p <- ggplot (sum1, aes(intonation, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  facet_grid(. ~ etype) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=20), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00"))
+p 
+```
+
+
+It seems that the plots are not visually amenable to direct comparisons, so let's now plot etype on the x-axis and intonation as separate facets.
+
+```{r, echo=FALSE}
+# Plot
+p <- ggplot (sum1, aes(etype, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  facet_grid(. ~ intonation) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=20), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00"))
+p 
+```
+
+The effect is not really in the direction that we hypothesized (more NE responses for EI, instead of less, at least in the case of list tune). In any case, it seems small and not significant.
+
+Perhaps certain items bring out the effect more, but others don't? Let's now plot individual items.
+
+```{r, echo=FALSE}
+sum2 <- dat %>% 
+  group_by(intonation, content, etype, followupchoice) %>% 
+  summarise(count=n()) %>% 
+  mutate(perc=count/sum(count), n=sum(count))
+
+# Add standard errors
+sum2$se = sqrt(sum2$perc*(1-sum2$perc)/sum2$n)
+sum2$uci = sum2$perc + 1.96*sum2$se
+sum2$lci = sum2$perc - 1.96*sum2$se
+
+# Plot
+p <- ggplot (sum2, aes(etype, y=perc*100, fill=followupchoice)) +
+  geom_bar(colour="black", stat="identity", position="dodge") +
+  geom_errorbar(aes(ymin=lci*100, ymax=uci*100, group=followupchoice),
+                width=.2,
+                position=position_dodge(.9)) +
+  facet_grid(content ~ intonation) +
+  theme_bw() + scale_y_continuous(limits = c(0, 100)) +
+  theme(axis.text.x=element_text(size=20), axis.text.y=element_text(size=20), 
+        axis.title.y=element_text(size=20), axis.title.x=element_blank(), 
+        plot.margin=unit(c(1,1,2,0), "mm")) + 
+        labs(y='Percent follow-up choice') + 
+        theme(plot.title=element_text(size=24)) + 
+        scale_fill_manual(values=c("#009E73", "#D55E00"))
+p 
+```
+
+The patterns are not consistent across items (e.g. call vs. window), which is a problem.
+
+## Certainty ratings
+
+## Statistical analyses
+
+Some basic statistical analyses.
+```{r, echo=FALSE}
+library(lme4)
+library(lmerTest)
+
+m1 <- glmer(followupchoice ~ intonation * etype + (1|speaker) + (1|workerid), data = dat, family = "binomial")
+summary(m1)
+```
+
+As expected, intonation emerges as being a significant predictor, but not etype.

@@ -1,0 +1,735 @@
+
+<html>
+<head>
+
+<title>Language experiment</title>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://stanford.edu/~sunwooj/experiments/mmturkey.0.5.js"></script> 
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="https://stanford.edu/~sunwooj/experiments/sliders/jquery-ui.css"></link>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+</head>
+
+
+
+<!-- inline CSS style for now -->
+<style>
+
+body {
+    font-family: serif;
+    font-size: 120%;
+    color: black;
+    min-width: 980px;
+    background: #fffff2  }
+
+div {
+    background: #fffff2;
+    padding: 4px 4px 4px 4px;
+    text-align: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border-radius: 4px;  
+}
+
+div div {
+    background: white;
+    padding: 4px 4px 4px 4px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid black;   
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    /*border-radius: 5px;*/
+}
+
+label {
+    display: block;
+}
+
+.responseText{ 
+    background: white;
+    padding: 4px 4px 4px 4px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px transparent; 
+}
+
+.leftLabel {
+    float: left; 
+    font-size: 80%; 
+    font-weight: bold; 
+    color: #8C1515;
+}
+
+.rightLabel {
+    float: right; 
+    font-size: 80%; 
+    font-weight: bold; 
+    color: #8C1515;
+}
+
+.centerLabel {
+    float: center; 
+    font-size: 80%; 
+    font-weight: bold; 
+    color: black;
+}
+
+.block-text {
+  width: 500px;
+  text-align: justify;
+  margin: 0 auto;
+  margin-bottom: 1em;
+}
+
+.questionSent {
+    margin-left: 20px;
+    margin-right: 20px;
+    /*text-indent: 20px;*/
+    text-align: left;
+}
+
+.optional {
+    text-indent: 20px;
+    text-align: left;
+}
+
+.sliders {
+        padding-bottom: 0px;
+        padding-top: 0px;
+        margin: 5px auto;
+    }
+
+</style>
+
+
+
+
+<!-- main html body -->
+
+<body>
+
+<div class='slide' id='intro'>   
+    <div>
+
+<br>
+<img src="https://stanford.edu/~sunwooj/logo-cardinal.png" alt="Stanford Department of Linguistics" width="240">
+<br>
+<br>
+<p class='block-text'>NOTE: PLEASE DO NOT OPEN THE SURVEY IN A NEW TAB. THIS WILL PREVENT THE MTURK FROM SUBMITTING THE RESULTS. THERE IS NO VERIFICATION CODE AT THE END. MTURK WILL SUBMIT THE RESULTS AUTOMATICALLY.<br><br>This is a language related experiment involving audio. It takes approximately 10 minutes to finish. If you have any questions or concerns about this experiment, please contact the main researcher, at sunwooj@stanford.edu.
+</p>
+
+<p class='block-text'>
+LEGAL INFORMATION:
+We invite you to participate in a research study on language production and comprehension. Your experimenter will ask you to do a linguistic task such as reading sentences or words, naming pictures or describing scenes, making up sentences of your own, or participating in a simple language game.
+<br><br>
+There are no risks or benefits of any kind involved in this study. You will be paid for your participation at the posted rate.
+If you have read this form and have decided to participate in this experiment, please understand your participation is voluntary and you have the right to withdraw your consent or discontinue participation at any time without penalty or loss of benefits to which you are otherwise entitled. You have the right to refuse to do particular tasks. Your individual privacy will be maintained in all published and written data resulting from the study. You may print this form for your records.
+<br><br>
+CONTACT INFORMATION:
+If you have any questions, concerns or complaints about this research study, its procedures, risks and benefits, you should contact one of the Protocol Director, Penelope Eckert: (650)-725-1564.
+<br><br>
+If you are not satisfied with how this study is being conducted, or if you have any concerns, complaints, or general questions about the research or your rights as a participant, please contact the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at (650)-723-2480 or toll free at 1-866-680-2906. You can also write to the Stanford IRB, Stanford University, 3000 El Camino Real, Five Palo Alto Square, 4th Floor, Palo Alto, CA 94306 USA.
+If you agree to participate, please proceed to the study tasks.
+</p>
+
+<br><br>
+<button type='button' id='gotoInstructions'>Proceed to instructions</button>
+<br><br> 
+
+    </div>
+</div>
+
+
+
+
+<div class='slide' id='instructions'>
+    <div>
+
+<br><br>
+<p class='block-text'>In this experiment, you will be playing <strong> 8 sound files</strong>, twice for each of them. After listening carefully to each sound file, please answer a few questions. Before proceeding:</p>
+
+<p class='block-text'>1: <strong>Please make sure that you have a functioning headset, and please check that your speaker volume is set to a comfortable level by clicking on the sample audio file below. We will check to make sure that you have played and listened to all 8 audio files in the main experiment, as this is crucial to our experiment.</strong></p>
+
+<p class='block-text'>2: You must also be a native speaker of American English to participate in this study. To proceed, please check the boxes below to confirm that you meet both requirements, and then click on the button, &quot; Start experiment &quot;. </p>
+
+<p class='block-text'>Note: This is a perception experiment requiring undivided attention from your part. Please devote your attention solely to this task. Thanks for your participation!</p>
+
+<span style="font-weight: bold; color: #8C1515;"> Test Sound </span>
+<br>
+<audio id="sampleAudio" controls=""><source src="#" type="audio/wav"></audio>
+<br><br>
+<form class='questionSent'>
+  <input type='checkbox' id='native' name='native' value='1'> I am a native speaker of American English. <br>
+  <input type='checkbox' id='speaker' name='speaker' value='1'> I have a functioning headphone and an audio system that can play sound files. <br>
+</form>
+
+<br><br>
+<button type='button' id='startbutton'>Start experiment</button>
+<br><br>
+<p><span style='color: blue' id="checkboxWarning"></span></p>
+
+    </div>
+</div>
+
+
+
+
+<!-- Main experiment starts here -->
+<div class='slide' id='stage'>
+    <div>
+        <div>
+
+<!-- Audio stimuli displayed here -->
+<p class='questionSent'>Please listen to the audio clip below.</p>
+<br>
+<span style="font-weight: bold; color: #8C1515;"> Sound <span class="item_number">{{}}</span> out of 8</span>
+<br>
+<audio id="currentAudio" controls=""><source src="#" type="audio/wav"></audio>
+
+
+
+
+<!-- Q1: Follow up forced choice -->
+<form id='responseForm1'>
+<p class='questionSent'>Q1: Given what you just heard, which of the following two is the speaker more likely to say next? (You can listen to the clip multiple times.)</p>
+
+<div id='followUps' class='responseText'> 
+
+<label><input type='radio' class='response' name='response' id='1' value='1' /> <strong><span class='currentED'>{{}}</span></strong> </label>
+<label><input type='radio' class='response' name='response' id='2' value='2' /> <strong><strong><span class='currentNE'>{{}}</span></strong></strong> </label>
+
+</div> 
+</form>
+
+
+
+
+
+
+<!-- Q2: Certainty rating -->
+<form id='responseForm2'>
+
+<p class='questionSent'>Q2: How certain are you about your response? 
+
+  <input type="hidden" class="slidervals" name="sliderval1" id="sliderval1" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+
+<p>
+<span class='leftLabel'> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Not at all certain 
+</span> 
+<span class='rightLabel'> Extremely certain &nbsp; &nbsp; &nbsp; &nbsp; </span>
+<!--<br>
+<span class='leftLabel'> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; certain </span> 
+<span class='centerLabel'> CERTAINTY </span>
+<span class='rightLabel'> certain &nbsp; &nbsp; &nbsp; &nbsp; </span>-->
+<br>
+<span style='float: left;'> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (0) </span>  
+<span style='float: right;'> (100) &nbsp; &nbsp; &nbsp; &nbsp; </span>
+<br>
+</p>
+
+<div class="sliders" id="slider1"></div>
+
+<!-- warning message in case of no response 
+<button type='button' id='veributton'>Next</button>
+<p><span style='color: blue' id="veriWarning"></span></p>
+-->
+
+</form>
+<br>
+
+
+
+
+
+<!-- Q3: Verification -->
+<form id='responseForm3'>
+
+<p class='questionSent'>Q3: Please type in what you heard from the audio clip above. (You can listen to the clip as many times as you like.)</p>
+<p><input type='text' id='verification' style="width: 400px;" value="" /> </p>
+<br>
+
+<p class='block-text'> It's okay if you happen to mishear some words, but please try to type in the words you heard as accurately as you can. </p>
+
+<p class='block-text'> <strong> Make sure you type in everything before you click Continue, as you cannot come back to this section. </strong>
+</p>
+
+</form>
+
+
+
+
+
+<!-- Optional responses -->
+<p id='optional1' class='optional'>Q4. (Optional) Any comments?</p>
+
+<!--<textarea id="commentBox2" class="commentBox" cols="50" rows="2"></textarea>-->
+<input type='text' id="commentBox1" class="commentBox" style="width: 400px;" value="" />
+
+<br><br>
+<button type='button' id='continue'>Continue</button>
+
+<!-- Warning message in case any of things don't get a response -->
+<p><span style='color: blue' id="warning"></span></p>
+
+<p>(This is sound number <span class="item_number"> CHANGE THIS </span> out of 8)</p>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Demographic information slide -->
+<div class='slide' id='language'>
+    <div>
+
+<p class='questionSent'> 
+You are done with the actual experiment. The following is a brief questionnaire about you.
+<br><br>
+Our experience with different languages, and with different dialects of English, can influence the way we speak and the way we perceive speech. Having background information on these experiences can be helpful to researchers who study language.
+<br><br>
+Therefore, although the questionnaire below is optional, we would greatly appreciate it if you could fill it out.
+</p>
+<br><br>
+
+<form id='languageForm'>
+
+<form id='otherlangForm'>
+<p class='questionSent'> Do you speak any language other than English as a native speaker?
+<br>
+<input type='radio' class='res' name='age' id='20s' value='1' /> Yes <br>
+<input type='radio' class='res' name='age' id='30s' value='2' /> No <br>
+</p>
+<br><br>
+</form>
+
+<form id='genderForm'>
+<p class='questionSent'> What is your gender?
+<br>
+<input type='radio' class='res' name='gen' id='f' value='1' /> Female <br>
+<input type='radio' class='res' name='gen' id='m' value='2' /> Male <br>
+<input type='radio' class='res' name='gen' id='o' value='3' /> Other <br>
+</p>
+<br><br>
+</form>
+
+<form id='ageForm'>
+<p class='questionSent'> What is your age?
+<br>
+<input type='radio' class='res' name='age' id='20s' value='1' /> 18-29 <br>
+<input type='radio' class='res' name='age' id='30s' value='2' /> 30-39 <br>
+<input type='radio' class='res' name='age' id='40s' value='3' /> 40-49 <br>
+<input type='radio' class='res' name='age' id='50s' value='4' /> 50-59 <br>
+<input type='radio' class='res' name='age' id='60s' value='5' /> 60+ <br>
+</p>
+<br><br>
+</form>
+
+<form id='ethnicityForm'>
+<p class='questionSent'> What is your ethnicity?
+<br>
+<input type='radio' class='res' name='eth' id='afa' value='1' /> African American <br>
+<input type='radio' class='res' name='eth' id='asa' value='2' /> Asian American <br>
+<input type='radio' class='res' name='eth' id='ca' value='3' /> Caucasian <br>
+<input type='radio' class='res' name='eth' id='la' value='4' /> Latina/o <br>
+<input type='radio' class='res' name='eth' id='ma' value='5' /> Mixed <br>
+<input type='radio' class='res' name='eth' id='nta' value='6' /> Native American <br>
+<input type='radio' class='res' name='eth' id='oa' value='7' /> Other <br>
+</p>
+<br><br>
+</form>
+
+<p class='questionSent'>Which area in the U.S. did you live for most of your life?
+<br>
+<input type='text' id='dialect' value="" />
+</p>
+
+<p class='questionSent'>Any other comments about questions above?
+<br>
+<input type='text' id='lang_com' value="" />
+</p>
+
+</form>
+
+<br><br>
+
+<button type='button' id='lgsubmit'>Submit</button>
+    </div>
+</div>
+
+
+<div class='slide' id='finish'>
+<p>You're done with the experiment. Thanks so much for participating!</p>
+</div>
+
+</body>
+</html>
+
+
+
+<script>
+
+//(for later when testing php)
+//var experimentName = "ImpListExp1Pilot";
+//var submitAddress = "http://stanford.edu/~sunwooj/cgi-bin/process.php";
+
+
+//Initialize the list of audio stimuli (counterbalanced in intonation and speaker gender)
+
+var stimuliList = shuffle([ 
+
+        [[["chr_S1UM_cookie_LHL", "Don't have a pop tart! It has way too many additives.", "Don't have a cookie! You can do whatever you want."],
+            ["chr_S1UM_cookie_HLL", "Don't have a pop tart! It has way too many additives.", "Don't have a cookie! You can do whatever you want."],
+            ["zio_S1UM_cookie_LHL", "Don't have a pop tart! It has way too many additives.", "Don't have a cookie! You can do whatever you want."],
+            ["zio_S1UM_cookie_HLL", "Don't have a pop tart! It has way too many additives.", "Don't have a cookie! You can do whatever you want."]], 
+
+            [["chr_S1UM_right_LHL", "Don't go left! There's heavy traffic there.", "Don't go right! You'll get there either way."],
+            ["chr_S1UM_right_HLL", "Don't go left! There's heavy traffic there.", "Don't go right! You'll get there either way."],
+            ["zio_S1UM_right_LHL", "Don't go left! There's heavy traffic there.", "Don't go right! You'll get there either way."],
+            ["zio_S1UM_right_HLL", "Don't go left! There's heavy traffic there.", "Don't go right! You'll get there either way."]]],
+
+
+        [[["kev_S1UM_menu_HLL", "Don't just read the daily specials! You'll get better food that way.", "Don't read the menu! Do whatever you feel like."],
+            ["bec_S1UM_menu_LHL", "Don't just read the daily specials! You'll get better food that way.", "Don't read the menu! Do whatever you feel like."],
+            ["bec_S1UM_menu_HLL", "Don't just read the daily specials! You'll get better food that way.", "Don't read the menu! Do whatever you feel like."],
+            ["kev_S1UM_menu_LHL", "Don't just read the daily specials! You'll get better food that way.", "Don't read the menu! Do whatever you feel like."]],
+
+            [["kev_S1UM_call_HLL", "Don't call your husband! That's a bad idea.", "Don't call your mom! I don't care."],
+            ["bec_S1UM_call_LHL", "Don't call your husband! That's a bad idea.", "Don't call your mom! I don't care."],
+            ["bec_S1UM_call_HLL", "Don't call your husband! That's a bad idea.", "Don't call your mom! I don't care."],
+            ["kev_S1UM_call_LHL", "Don't call your husband! That's a bad idea.", "Don't call your mom! I don't care."]]],
+
+
+        [[["bec_S1UM_window_LHL", "Close the door! The room feels nicer that way.", "Close the window! I'm fine either way."],
+            ["bec_S1UM_window_HLL", "Close the door! The room feels nicer that way.", "Close the window! I'm fine either way."],
+            ["kev_S1UM_window_LHL", "Close the door! The room feels nicer that way.", "Close the window! I'm fine either way."],
+            ["kev_S1UM_window_HLL", "Close the door! The room feels nicer that way.", "Close the window! I'm fine either way."]],
+
+        [["bec_S1UM_home_LHL", "Go to your room! You need to do your homework.", "Go out! Do whatever you like."],
+            ["bec_S1UM_home_HLL", "Go to your room! You need to do your homework.", "Go out! Do whatever you like."],
+            ["kev_S1UM_home_LHL", "Go to your room! You need to do your homework.", "Go out! Do whatever you like."],
+            ["kev_S1UM_home_HLL", "Go to your room! You need to do your homework.", "Go out! Do whatever you like."]]],
+
+
+        [[["zio_S1UM_email_HLL", "Send her an RSVP request as well! She’ll appreciate it.", "Send her a letter instead! It doesn’t matter."],
+            ["chr_S1UM_email_LHL", "Send her an RSVP request as well! She’ll appreciate it.", "Send her a letter instead! It doesn’t matter."],
+            ["chr_S1UM_email_HLL", "Send her an RSVP request as well! She’ll appreciate it.", "Send her a letter instead! It doesn’t matter."],
+            ["zio_S1UM_email_LHL", "Send her an RSVP request as well! She’ll appreciate it.", "Send her a letter instead! It doesn’t matter."]],
+
+            [["zio_S1UM_calm_HLL", "Be thankful! You'll be happier that way.", "Be worried! You can't do anything about it anyway."],
+            ["chr_S1UM_calm_LHL", "Be thankful! You'll be happier that way.", "Be worried! You can't do anything about it anyway."],
+            ["chr_S1UM_calm_HLL", "Be thankful! You'll be happier that way.", "Be worried! You can't do anything about it anyway."],
+            ["zio_S1UM_calm_LHL", "Be thankful! You'll be happier that way.", "Be worried! You can't do anything about it anyway."]]], 
+
+
+        [[["chr_S1UM_coffee_LHL", "Stir it well! It’ll taste better that way.", "Drink it black! It’s completely up to you."],
+            ["chr_S1UM_coffee_HLL", "Stir it well! It’ll taste better that way.", "Drink it black! It’s completely up to you."],
+            ["zio_S1UM_coffee_LHL", "Stir it well! It’ll taste better that way.", "Drink it black! It’s completely up to you."],
+            ["zio_S1UM_coffee_HLL", "Stir it well! It’ll taste better that way.", "Drink it black! It’s completely up to you."]],
+
+            [["chr_S1UM_apple_LHL", "Don’t hurt yourself! You can take as much time as you need.", "Just use a knife! Either will do the job."],
+            ["chr_S1UM_apple_HLL", "Don’t hurt yourself! You can take as much time as you need.", "Just use a knife! Either will do the job."],
+            ["zio_S1UM_apple_LHL", "Don’t hurt yourself! You can take as much time as you need.", "Just use a knife! Either will do the job."],
+            ["zio_S1UM_apple_HLL", "Don’t hurt yourself! You can take as much time as you need.", "Just use a knife! Either will do the job."]]],
+
+
+        [[["bec_S1UM_left_HLL", "Then take the second boulevard! It’s the quickest route.", "Don’t turn left! You'll get there either way."],
+            ["bec_S1UM_left_LHL", "Then take the second boulevard! It’s the quickest route.", "Don’t turn left! You'll get there either way."],
+            ["kev_S1UM_left_HLL", "Then take the second boulevard! It’s the quickest route.", "Don’t turn left! You'll get there either way."],
+            ["kev_S1UM_left_LHL", "Then take the second boulevard! It’s the quickest route.", "Don’t turn left! You'll get there either way."]],
+
+            [["bec_S1UM_dog_HLL", "Make sure to take a treat for him! It would be a big help for me.", "Play some video games instead! I don’t care."],
+            ["bec_S1UM_dog_LHL", "Make sure to take a treat for him! It would be a big help for me.", "Play some video games instead! I don’t care."],
+            ["kev_S1UM_dog_HLL", "Make sure to take a treat for him! It would be a big help for me.", "Play some video games instead! I don’t care."],
+            ["kev_S1UM_dog_LHL", "Make sure to take a treat for him! It would be a big help for me.", "Play some video games instead! I don’t care."]]],
+
+
+        [[["sara_filler_operation_before", "...but many more afterwards", "...and no one afterwards"],
+            ["sara_filler_border_until", "...but many more afterwards", "...and no one afterwards"],
+            ["sara_filler_conference_before", "...and from many more afterwards", "...but from very few afterwards"],
+            ["sara_filler_register_until", "...and many more afterwards", "...but very few afterwards"]],
+
+            [["sara_filler_operation_before", "...but many more afterwards", "...and no one afterwards"],
+            ["sara_filler_border_until", "...but many more afterwards", "...and no one afterwards"],
+            ["sara_filler_conference_before", "...and from many more afterwards", "...but from very few afterwards"],
+            ["sara_filler_register_until", "...and many more afterwards", "...but very few afterwards"]]],
+
+
+        [[["chr_filler_conference_until", "...and from many more afterwards", "...but from very few afterwards"],
+            ["chr_filler_register_before", "...and many more afterwards", "...but very few afterwards"],
+            ["kev_filler_operation_until", "...but many more afterwards", "...and no one afterwards"],
+            ["kev_filler_border_before", "...but many more afterwards", "...and no one afterwards"]],
+
+            [["chr_filler_conference_until", "...and from many more afterwards", "...but from very few afterwards"],
+            ["chr_filler_register_before", "...and many more afterwards", "...but very few afterwards"],
+            ["kev_filler_operation_until", "...but many more afterwards", "...and no one afterwards"],
+            ["kev_filler_border_before", "...but many more afterwards", "...and no one afterwards"]]]
+    ]);
+
+
+var data = {}; 
+var trialnum = 0;
+
+
+$(document).ready(function() {
+    showSlide("intro");
+    $('#gotoInstructions').click(function() {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        showSlide('instructions');
+    });
+
+    document.getElementById('sampleAudio').src = "http://stanford.edu/~sunwooj/experiments/dec1/stimuli/sample.wav";
+    
+    $('#startbutton').click(function() {
+        var nat = document.getElementById("native").checked;
+        var spe = document.getElementById("speaker").checked;
+        if (nat == true && spe == true) {
+        stepExperiment();
+        }
+        else {
+            checkboxwarning = "Please check both boxes to confirm that you meet the necessary requirements, in order to proceed to the experiment.";
+            $("#checkboxWarning").html(checkboxwarning);
+        }
+    });
+});
+
+function showSlide (slideName) {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    $('.slide').hide();
+    $('#' + slideName).show();
+}
+
+
+var stimuliVector = {};
+var stimuliSet = {};
+var stimuliSet2 = {};
+var audioStim = {};
+var EDStim = {};
+var NEStim = {};
+var itemRandom = Math.floor(Math.random() * 2);
+var stimuliRandom = Math.floor(Math.random() * 4);
+
+
+function stepExperiment () {
+    if (trialnum == 8) { // end the experiment. there are 8 sentences.
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        showSlide("language");
+        $('#lgsubmit').click(function() {
+            var seclang = $('#otherlangForm').serialize();
+			var gender = $('#genderForm').serialize();
+            var age = $('#ageForm').serialize();
+            var race = $('#ethnicityForm').serialize();
+			var region = $('#dialect').val();
+            region = region.replace (/,/g, "");
+			var region_com = $('#lang_com').val();
+            region_com = region_com.replace (/,/g, "");
+
+			//if (lang.length > 0) {
+                data.seclang = seclang;
+				data.gender = gender;
+                data.age = age;
+                data.race = race;
+				data.region = region;
+				data.regionComments = region_com;
+
+				showSlide('finish');
+				setTimeout(function() { turk.submit(data)}, 1000); 
+                //} 
+            } ) }
+ 
+    else {
+ 
+        trialnum += 1;
+        stimuliVector = stimuliList[trialnum-1];
+        stimuliSet = stimuliVector[itemRandom];
+        stimuliSet2 = stimuliSet[stimuliRandom];
+        audioStim = stimuliSet2[0];
+        EDStim = stimuliSet2[1];
+        NEStim = stimuliSet2[2];            
+        
+        
+        $(".item_number").html(trialnum);  
+        $(".currentED").html(EDStim);
+        $(".currentNE").html(NEStim);
+        
+
+        // Tell HTML which sound file will be played
+        document.getElementById('currentAudio').src = "http://stanford.edu/~sunwooj/experiments/implist/" + audioStim + ".wav";
+
+        var followups = $("#followUps");
+        followups.html(
+            followups.find("label").sort(function(){
+                return Math.round(Math.random())-0.5;}));
+
+
+        // Show the main experiment slide
+        // Only show the verification question at first
+
+        showSlide('stage'); 
+
+        // Depending on whether the verification question is submitted
+        // $('#veributton').click(function() {
+        //     var veri = $('#verification').val();
+        //     if (veri.length > 0) {
+        //         // Show subsequent questions
+        //         $("#responseForm0").hide();
+        //         $("#responseForm1").show();
+        //         $("#responseForm2").show();
+        //         $("#responseForm3").show();
+        //         $("#responseForm4").show();
+        //         $("#responseForm5").show();
+        //         $(".optional").show();
+        //         $(".commentBox").show();
+        //         $("#continue").show();
+        //     }
+        //     else {
+        //         // Or ask the participant to type in the verification
+        //         veriwarning = "Please type in what you heard to move on to the next questions.";
+        //         $("#veriWarning").html(veriwarning);
+        //     }
+        // });
+        
+
+        //When continue is clicked to move on to the next sound/stage:
+        $('#continue').click(function() {
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            // initialize the warning messages and comment boxes again 
+            // in case it was called previously
+            //$("#veriWarning").html("");
+            $("#warning").html("");
+            $("#commentBox1").html("");
+            //$("#commentBox2").html("");
+           
+
+            var veri = $('#verification').val();
+            veri = veri.replace (/,/g, "");
+            var choiceResponse = $('#responseForm1').serialize();
+            var sliderResponse1 = $('#sliderval1').val();
+            var commentResponse1 = $('#commentBox1').val();
+            commentResponse1 = commentResponse1.replace (/,/g, "");
+            // var commentResponse2 = $('#commentBox2').val();
+            // commentResponse2 = commentResponse2.replace (/,/g, "");
+
+
+            // Check for valid answers; all questions from Q1-Q5 must be answered
+            if  (slider1.style.backgroundColor != "" && choiceResponse.length > 0 && veri.length > 0) {
+
+            //if (sliderResponse1 > -1 && sliderResponse2 > -1 && sliderResponse3 > -1 && sliderResponse4 > -1 && choiceResponse.length > 0 && veri.length > 0) {
+
+                // make continue button available for re-use
+                $("#continue").unbind('click');
+                // ensure that response options are unticked for the next sound   
+                $(".response").prop('checked', false);
+                // ensure that verification and comment boxes are emptied as well
+                $("#verification").val("");
+                $(".commentBox").val("");
+                //$("#commentBox2").val("");
+                //refreshSlider();
+              
+                // Write data from collected responses
+                trial = {};
+                trial.stimulus = audioStim;
+                trial.verification = veri;
+                trial.followupchoice = choiceResponse;
+                trial.certainty = sliderResponse1;
+                trial.comment1 = commentResponse1;
+                data["trial" + trialnum] = trial;
+
+
+                // Initialize the sliders again
+                refreshSlider();
+            
+
+                // Move on to the next sound
+                stepExperiment();
+     
+                    }
+            else { // If any of the questions from Q1 - Q7 is not answered:
+                warning = "Please answer all the questions from Q1 to Q3 to continue :) Make sure that you have dragged or clicked on all the slider buttons so that each slider is colored and each button displays numeric values.";
+                $("#warning").html(warning);
+            }
+        });
+    }
+}
+
+
+// Codes for sliders
+// Slider1
+$( function() {
+    $( "#slider1" ).slider({
+      value: 50,
+      min: 0,
+      max: 100,
+      step: 1,
+      slide: function( event, ui ) {
+
+        $("#slider1").css({"background": "#CCFFFF"});
+        $("#slider1 .ui-slider-handle").css({
+                      "background": "#E0F5FF",
+                      "border-color": "#001F29"
+                  });
+
+        m_val = ui.value;
+        if (m_val < 0) {
+            $(ui.handle).text("?");
+        }
+        else {
+            $(ui.handle).text(m_val);
+        }
+        $( "#sliderval1" ).val( ui.value );
+      }
+    });
+    $( "#sliderval1" ).val( $( "#slider1" ).slider( "value" ) );
+  } );
+
+
+// Function that refreshes slider values
+function refreshSlider () {
+    $(".sliders").slider('value', 50);
+    $(".sliders").val(50);
+    $(".slidervals").val(50);
+    $(".ui-slider-handle").text("");
+    $(".sliders").css({"background":""});
+    $(".sliders" + " .ui-slider-handle").css({
+        "background":"#FAFAFA",
+        "border-color": "#CCCCCC" });
+}
+
+
+function chooseRandom(list) {
+    return list[Math.floor(Math.random() * list.length)];
+}
+
+
+function shuffle(v) { // non-destructive.
+    newarray = v.slice(0);
+    for (var j, x, i = newarray.length; i; j = parseInt(Math.random() * i), x = newarray[--i], newarray[i] = newarray[j], newarray[j] = x);
+    return newarray;
+}
+
+</script>
